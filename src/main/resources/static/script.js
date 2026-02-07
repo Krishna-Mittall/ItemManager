@@ -1,6 +1,6 @@
-// 🌍 API Base URL (LIVE DEPLOYMENT)
-// 👉 Replace with your real koyeb link
-const API_BASE_URL = 'https://YOUR-KOYEB-APP.koyeb.app/item';
+//  API Base URL (AUTO-DETECT DOMAIN - BEST PRACTICE)
+// Works on localhost + koyeb + any deployment
+const API_BASE_URL = window.location.origin + '/item';
 
 // Store tasks locally for display
 let recentTasks = [];
@@ -166,7 +166,6 @@ function escapeHtml(text) {
 // 🌐 Production Network Error Handler
 window.addEventListener('unhandledrejection', (event) => {
     console.error('Unhandled promise rejection:', event.reason);
-
     alert('Unable to connect to deployed backend. Please check if your Koyeb service is running.');
 });
 
