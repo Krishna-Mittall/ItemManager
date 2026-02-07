@@ -1,5 +1,6 @@
-// API Base URL
-const API_BASE_URL = 'http://localhost:8080/item';
+// 🌍 API Base URL (LIVE DEPLOYMENT)
+// 👉 Replace with your real koyeb link
+const API_BASE_URL = 'https://YOUR-KOYEB-APP.koyeb.app/item';
 
 // Store tasks locally for display
 let recentTasks = [];
@@ -27,14 +28,13 @@ function setupEventListeners() {
 // Handle Add Item Form Submission
 async function handleAddItem(e) {
     e.preventDefault();
-    
+
     const formData = new FormData(addItemForm);
     const itemData = {
         name: formData.get('name'),
         description: formData.get('description')
     };
 
-    // Clear previous messages
     clearMessage(addMessage);
 
     try {
@@ -52,44 +52,35 @@ async function handleAddItem(e) {
         }
 
         const newItem = await response.json();
-        
-        // Show success message
+
         showMessage(addMessage, `Task added successfully! ID: ${newItem.id}`, 'success');
-        
-        // Add to recent tasks
+
         recentTasks.unshift(newItem);
         if (recentTasks.length > 10) {
-            recentTasks.pop(); // Keep only last 10 tasks
+            recentTasks.pop();
         }
+
         displayRecentTasks();
-        
-        // Reset form
         addItemForm.reset();
-        
+
     } catch (error) {
         showMessage(addMessage, `Error: ${error.message}`, 'error');
         console.error('Error adding item:', error);
     }
 }
 
-// Handle Get Item Form Submission
+// Handle Get Item
 async function handleGetItem(e) {
     e.preventDefault();
-    
+
     const formData = new FormData(getItemForm);
     const itemId = formData.get('id');
 
-    // Clear previous messages and results
     clearMessage(getMessage);
     hideTaskResult();
 
     try {
-        const response = await fetch(`${API_BASE_URL}/${itemId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+        const response = await fetch(`${API_BASE_URL}/${itemId}`);
 
         if (!response.ok) {
             if (response.status === 404) {
@@ -100,11 +91,10 @@ async function handleGetItem(e) {
         }
 
         const item = await response.json();
-        
-        // Display task result
+
         displayTaskResult(item);
         showMessage(getMessage, 'Task found successfully!', 'success');
-        
+
     } catch (error) {
         showMessage(getMessage, `Error: ${error.message}`, 'error');
         console.error('Error fetching item:', error);
@@ -144,28 +134,24 @@ function displayRecentTasks() {
     tasksList.innerHTML = tasksHTML;
 }
 
-// Show Message
+// Message helpers
 function showMessage(element, text, type) {
     element.textContent = text;
     element.className = `message ${type}`;
     element.style.display = 'block';
 
-    // Auto-hide success messages after 5 seconds
     if (type === 'success') {
-        setTimeout(() => {
-            clearMessage(element);
-        }, 5000);
+        setTimeout(() => clearMessage(element), 5000);
     }
 }
 
-// Clear Message
 function clearMessage(element) {
     element.textContent = '';
     element.className = 'message';
     element.style.display = 'none';
 }
 
-// Escape HTML to prevent XSS
+// Escape HTML
 function escapeHtml(text) {
     const map = {
         '&': '&amp;',
@@ -177,28 +163,12 @@ function escapeHtml(text) {
     return text.replace(/[&<>"']/g, m => map[m]);
 }
 
-// Utility: Format Date
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-}
-
-// Error Handler for Network Issues
+// 🌐 Production Network Error Handler
 window.addEventListener('unhandledrejection', (event) => {
     console.error('Unhandled promise rejection:', event.reason);
-    
-    // Check if it's a network error
-    if (event.reason && event.reason.message.includes('fetch')) {
-        alert('Unable to connect to the server. Please make sure your Spring Boot application is running on http://localhost:8080');
-    }
+
+    alert('Unable to connect to deployed backend. Please check if your Koyeb service is running.');
 });
 
-// Log initialization
 console.log('Smart Task Manager initialized');
 console.log('API Base URL:', API_BASE_URL);
