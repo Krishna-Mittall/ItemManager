@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Task Manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Smart Task Manager</h1>
+            <p class="subtitle">Manage your tasks efficiently</p>
+        </header>
+
+        <main>
+            <!-- Add Item Section -->
+            <section class="card">
+                <h2>Add New Task</h2>
+                <form id="addItemForm">
+                    <div class="form-group">
+                        <label for="itemName">Task Name</label>
+                        <input 
+                            type="text" 
+                            id="itemName" 
+                            name="name" 
+                            placeholder="Enter task name"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="itemDescription">Description</label>
+                        <textarea 
+                            id="itemDescription" 
+                            name="description" 
+                            rows="4"
+                            placeholder="Enter task description"
+                            required
+                        ></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Task</button>
+                </form>
+                <div id="addMessage" class="message"></div>
+            </section>
+
+            <!-- Get Item Section -->
+            <section class="card">
+                <h2>Search Task by ID</h2>
+                <form id="getItemForm">
+                    <div class="form-group">
+                        <label for="itemId">Task ID</label>
+                        <input 
+                            type="number" 
+                            id="itemId" 
+                            name="id" 
+                            placeholder="Enter task ID"
+                            min="1"
+                            required
+                        >
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Search Task</button>
+                </form>
+                <div id="getMessage" class="message"></div>
+                
+                <!-- Task Result Display -->
+                <div id="taskResult" class="task-result hidden">
+                    <h3>Task Details</h3>
+                    <div class="task-info">
+                        <p><strong>ID:</strong> <span id="resultId"></span></p>
+                        <p><strong>Name:</strong> <span id="resultName"></span></p>
+                        <p><strong>Description:</strong> <span id="resultDescription"></span></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- All Tasks List -->
+            <section class="card">
+                <h2>Recent Tasks</h2>
+                <div id="tasksList" class="tasks-list">
+                    <p class="empty-state">No tasks added yet</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Smart Task Manager</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
