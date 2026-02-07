@@ -88,7 +88,7 @@ GET /items/1
 1. Clone the repository:
 
 ```
-git clone https://github.com/your-username/smart-task-manager.git
+git clone https://github.com/Krishna-Mittall/ItemManager.git
 ```
 
 2. Open in IntelliJ IDEA
