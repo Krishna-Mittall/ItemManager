@@ -6,6 +6,7 @@ import org.cfs.smarttaskmanager.Service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("item")
 public class ItemController {
